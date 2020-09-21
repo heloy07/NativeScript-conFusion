@@ -7,13 +7,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { NativeScriptHttpModule } from "nativescript-angular/http";
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
 
+import { HomeComponent } from './home/home.component';
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
 
+import { PromotionService } from './services/promotion.service';
+import { LeaderService } from './services/leader.service';
 import { DishService } from './services/dish.service';
 import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 
 import { baseURL } from './shared/baseurl';
+import { ContactComponent } from "./contact/contact.component";
+import { AboutComponent } from "./about/about.component";
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -35,13 +40,18 @@ import { baseURL } from './shared/baseurl';
     ],
     declarations: [
         AppComponent,
+        HomeComponent,
         MenuComponent,
+        ContactComponent,
+        AboutComponent,
         DishdetailComponent
     ],
     providers: [
         {provide: 'baseURL', useValue: baseURL},
         DishService,
-        ProcessHTTPMsgService
+        ProcessHTTPMsgService,
+        PromotionService,
+        LeaderService,
     ],
     schemas: [
         NO_ERRORS_SCHEMA
