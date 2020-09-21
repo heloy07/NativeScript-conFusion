@@ -5,6 +5,8 @@ import { ListViewEventData, RadListView } from 'nativescript-ui-listview';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular';
 import { ObservableArray } from 'tns-core-modules/data/observable-array';
 import { View } from 'tns-core-modules/ui/core/view';
+import { confirm } from "ui/dialogs";
+import { Toasty } from 'nativescript-toasty';
 
 @Component({
     selector: 'app-favorites',
@@ -30,23 +32,35 @@ export class FavoritesComponent implements OnInit {
     }
 
     deleteFavorite(id: number) {
-        this.favoriteservice.deleteFavorite(id)
-            .subscribe(favorites => this.favorites = new ObservableArray(favorites),
-                errmess => this.errMess = errmess);
-    }
-
-    public onCellSwiping(args: ListViewEventData) {
-        var swipeLimits = args.data.swipeLimits;
-        var currentItemView = args.object;
-        var currentView;
-
-        if(args.data.x > 200) {
-
-        }
-        else if (args.data.x < -200) {
-
-        }
-    }
+        console.log('delete', id);
+    
+        let options = {
+            title: "Confirm Delete",
+            message: 'Do you want to delete Dish '+ id,
+            okButtonText: "Yes",
+            cancelButtonText: "No",
+            neutralButtonText: "Cancel"
+        };
+    
+        confirm(options).then((result: boolean) => {
+            if(result) {
+    
+              this.favorites = null;
+    
+              this.favoriteservice.deleteFavorite(id)
+                  .subscribe(favorites => { 
+                    const toast = new Toasty("Deleted Dish "+ id, "short", "bottom");
+                    toast.show();
+                    this.favorites = new ObservableArray(favorites);
+                  },
+                  errmess => this.errMess = errmess);
+            }
+            else {
+              console.log('Delete cancelled');
+            }
+        });
+    
+      }
 
     public onSwipeCellStarted(args: ListViewEventData) {
         var swipeLimits = args.data.swipeLimits;
@@ -56,7 +70,7 @@ export class FavoritesComponent implements OnInit {
         var rightItem = swipeView.getViewById<View>('delete-view');
         swipeLimits.left = leftItem.getMeasuredWidth();
         swipeLimits.right = rightItem.getMeasuredWidth();
-        swipeLimits.threshold = leftItem.getMeasuredWidth()/2;
+        swipeLimits.threshold = leftItem.getMeasuredWidth() / 2;
     }
 
     public onSwipeCellFinished(args: ListViewEventData) {
