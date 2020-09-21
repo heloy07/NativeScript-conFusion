@@ -16,6 +16,7 @@ import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
 import { DishService } from './services/dish.service';
 import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
+import { FavoriteService } from './services/favorite.service';
 
 import { baseURL } from './shared/baseurl';
 import { ContactComponent } from "./contact/contact.component";
@@ -56,6 +57,7 @@ import { AboutComponent } from "./about/about.component";
         ProcessHTTPMsgService,
         PromotionService,
         LeaderService,
+        FavoriteService,
     ],
     schemas: [
         NO_ERRORS_SCHEMA
