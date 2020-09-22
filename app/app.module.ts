@@ -8,11 +8,14 @@ import { NativeScriptHttpModule } from "nativescript-angular/http";
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
 import { TNSFontIconModule } from 'nativescript-ngx-fonticon';
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
+import { NativeScriptFormsModule } from "nativescript-angular/forms";
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { HomeComponent } from './home/home.component';
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
 import { FavoritesComponent } from './favorites/favorites.component';
+import { ReservationComponent } from './reservation/reservation.component';
 
 import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
@@ -45,6 +48,8 @@ import { AboutComponent } from "./about/about.component";
             'fa': './fonts/font-awesome.min.css'
         }),
         NativeScriptUIListViewModule,
+        NativeScriptFormsModule,
+        ReactiveFormsModule,
     ],
     declarations: [
         AppComponent,
@@ -53,7 +58,8 @@ import { AboutComponent } from "./about/about.component";
         ContactComponent,
         AboutComponent,
         DishdetailComponent,
-        FavoritesComponent
+        FavoritesComponent,
+        ReservationComponent
     ],
     providers: [
         {provide: 'baseURL', useValue: baseURL},
