@@ -16,6 +16,7 @@ import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { ReservationComponent } from './reservation/reservation.component';
+import { ReservationModalComponent } from "./reservationmodal/reservationmodal.component";
 
 import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
@@ -59,8 +60,10 @@ import { AboutComponent } from "./about/about.component";
         AboutComponent,
         DishdetailComponent,
         FavoritesComponent,
-        ReservationComponent
+        ReservationComponent,
+        ReservationModalComponent
     ],
+    entryComponents: [ReservationModalComponent],
     providers: [
         {provide: 'baseURL', useValue: baseURL},
         DishService,
