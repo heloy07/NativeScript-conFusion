@@ -10,6 +10,7 @@ import { TNSFontIconModule } from 'nativescript-ngx-fonticon';
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { ReactiveFormsModule } from '@angular/forms';
+import { CouchbaseService } from './services/couchbase.service';
 
 import { HomeComponent } from './home/home.component';
 import { MenuComponent } from './menu/menu.component';
@@ -73,6 +74,7 @@ import { AboutComponent } from "./about/about.component";
         PromotionService,
         LeaderService,
         FavoriteService,
+        CouchbaseService
     ],
     schemas: [
         NO_ERRORS_SCHEMA

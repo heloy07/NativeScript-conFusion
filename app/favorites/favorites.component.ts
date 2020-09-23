@@ -8,6 +8,7 @@ import { View } from 'tns-core-modules/ui/core/view';
 import { confirm } from "ui/dialogs";
 import { Toasty } from 'nativescript-toasty';
 
+
 @Component({
     selector: 'app-favorites',
     moduleId: module.id,
