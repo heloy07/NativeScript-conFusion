@@ -10,6 +10,7 @@ import { Toasty } from 'nativescript-toasty';
 import * as app from "application";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 
+
 @Component({
     selector: 'app-favorites',
     moduleId: module.id,
