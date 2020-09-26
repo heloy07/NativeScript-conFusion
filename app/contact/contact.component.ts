@@ -3,6 +3,7 @@ import * as app from "application";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import { TNSFontIconService } from 'nativescript-ngx-fonticon';
 import * as Email from 'nativescript-email';
+import * as Phone from 'nativescript-phone';
 
 
 @Component({
@@ -34,5 +35,9 @@ export class ContactComponent  {
               console.log('No Email Configured');
           })
     
+      }
+      callRestaurant()(){
+          console.log("dialing");
+        Phone.dial("+85212345678",true);
       }
 }

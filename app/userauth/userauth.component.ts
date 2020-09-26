@@ -4,6 +4,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { getString, setString } from 'application-settings';
 import { RouterExtensions } from 'nativescript-angular/router';
 import * as camera from 'nativescript-camera';
+import * as imagepicker from "nativescript-imagepicker";
 import { Image } from 'ui/image';
 import * as app from "application";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
@@ -33,7 +34,7 @@ export class UserAuthComponent implements OnInit {
             userName: ['', Validators.required],
             password: ['', Validators.required],
             telnum: ['', Validators.required],
-            email: ['', Validators.required]                
+            email: ['', Validators.required]
         });
 
     }
@@ -46,7 +47,7 @@ export class UserAuthComponent implements OnInit {
         let isAvailable = camera.isAvailable();
         if (isAvailable) {
             camera.requestPermissions();
-            var options = { width: 100, height: 100, keepAspectRatio: false, saveToGallery: true};
+            var options = { width: 100, height: 100, keepAspectRatio: false, saveToGallery: true };
 
             camera.takePicture(options)
                 .then((imageAsset) => {
@@ -56,6 +57,26 @@ export class UserAuthComponent implements OnInit {
                 .catch((err) => console.log('Error -> ' + err.message));
         }
 
+    }
+    getFromLibrary() {
+        let context = imagepicker.create({
+            mode: "single" // use "multiple" for multiple selection
+        });
+        context
+            .authorize()
+            .then(() => {
+                return context.present();
+            })
+            .then((selection) => {
+                selection.forEach( (selected) => {
+                    // process the selected image
+                    let image = <Image>this.page.getViewById<Image>('myPicture');
+                    image.src = selected;
+                });
+
+            }).catch(function (e) {
+                // process error
+            });
     }
 
     register() {
@@ -79,9 +100,10 @@ export class UserAuthComponent implements OnInit {
 
         this.loginForm.patchValue({
             'userName': this.registerForm.get('userName').value,
-            'password': this.registerForm.get('password').value});
+            'password': this.registerForm.get('password').value
+        });
 
-            this.tabSelectedIndex = 0;
+        this.tabSelectedIndex = 0;
     }
 
     onDrawerButtonTap(): void {
