@@ -17,6 +17,8 @@ import { View } from "ui/core/view";
 import { SwipeGestureEventData, SwipeDirection } from "ui/gestures";
 import { Color } from 'color';
 import * as enums from "ui/enums";
+import * as SocialShare from "nativescript-social-share";
+import { ImageSource, fromUrl } from "image-source";
 
 @Component({
   selector: 'app-dishdetail',
@@ -90,6 +92,9 @@ export class DishdetailComponent implements OnInit {
       if (result == 'Add comment') {
         this.openCommentModal();
       }
+      else if (result === 'Social Sharing') {
+        this.socialShare();
+      }
 
 
     });
@@ -114,10 +119,10 @@ export class DishdetailComponent implements OnInit {
   }
   updateCommentsInfo() {
     this.numcomments = this.dish.comments.length;
-          
+
     let total = 0;
     this.dish.comments.forEach((comment: Comment) => total += comment.rating);
-    this.avgstars = (total/this.numcomments).toFixed(2);
+    this.avgstars = (total / this.numcomments).toFixed(2);
   }
   onSwipe(args: SwipeGestureEventData) {
 
@@ -126,10 +131,10 @@ export class DishdetailComponent implements OnInit {
       this.cardLayout = <View>this.page.getViewById<View>("cardLayout");
       this.commentList = <View>this.page.getViewById<View>("commentList");
 
-      if (args.direction === SwipeDirection.up && !this.showComments ) {
+      if (args.direction === SwipeDirection.up && !this.showComments) {
         this.animateUp();
       }
-      else if (args.direction === SwipeDirection.down && this.showComments ) {
+      else if (args.direction === SwipeDirection.down && this.showComments) {
         this.showComments = false;
         this.animateDown();
       }
@@ -141,71 +146,82 @@ export class DishdetailComponent implements OnInit {
     this.cardLayout = <View>this.page.getViewById<View>("cardLayout");
     this.commentList = <View>this.page.getViewById<View>("commentList");
 
-    if (!this.showComments ) {
+    if (!this.showComments) {
       this.animateUp();
     }
-    else if (this.showComments ) {
+    else if (this.showComments) {
       this.showComments = false;
       this.animateDown();
     }
-}
+  }
 
-animateUp() {
-  let definitions = new Array<AnimationDefinition>();
-  let a1: AnimationDefinition = {
+  animateUp() {
+    let definitions = new Array<AnimationDefinition>();
+    let a1: AnimationDefinition = {
       target: this.cardImage,
       scale: { x: 1, y: 0 },
       translate: { x: 0, y: -200 },
       opacity: 0,
       duration: 500,
       curve: enums.AnimationCurve.easeIn
-  };
-  definitions.push(a1);
+    };
+    definitions.push(a1);
 
-  let a2: AnimationDefinition = {
+    let a2: AnimationDefinition = {
       target: this.cardLayout,
       backgroundColor: new Color("#ffc107"),
       duration: 500,
       curve: enums.AnimationCurve.easeIn
-  };
-  definitions.push(a2);
+    };
+    definitions.push(a2);
 
-  let animationSet = new Animation(definitions);
+    let animationSet = new Animation(definitions);
 
-  animationSet.play().then(() => {
-    this.showComments = true;
-  })
-  .catch((e) => {
-      console.log(e.message);
-  });
-} 
+    animationSet.play().then(() => {
+      this.showComments = true;
+    })
+      .catch((e) => {
+        console.log(e.message);
+      });
+  }
 
-animateDown() {
-  let definitions = new Array<AnimationDefinition>();
-  let a1: AnimationDefinition = {
+  animateDown() {
+    let definitions = new Array<AnimationDefinition>();
+    let a1: AnimationDefinition = {
       target: this.cardImage,
       scale: { x: 1, y: 1 },
       translate: { x: 0, y: 0 },
       opacity: 1,
       duration: 500,
       curve: enums.AnimationCurve.easeIn
-  };
-  definitions.push(a1);
+    };
+    definitions.push(a1);
 
-  let a2: AnimationDefinition = {
+    let a2: AnimationDefinition = {
       target: this.cardLayout,
       backgroundColor: new Color("#ffffff"),
       duration: 500,
       curve: enums.AnimationCurve.easeIn
-  };
-  definitions.push(a2);
+    };
+    definitions.push(a2);
 
-  let animationSet = new Animation(definitions);
+    let animationSet = new Animation(definitions);
 
-  animationSet.play().then(() => {
-  })
-  .catch((e) => {
-      console.log(e.message);
-  });
-} 
+    animationSet.play().then(() => {
+    })
+      .catch((e) => {
+        console.log(e.message);
+      });
+  }
+  socialShare() {
+    let image: ImageSource;
+
+    fromUrl(this.baseURL + this.dish.image)
+     .then((img: ImageSource) => {
+       image = img; 
+        SocialShare.shareImage(image, "How would you like to share this image?")
+      })
+     .catch(()=> { console.log('Error loading image'); });
+
+  }
 }
